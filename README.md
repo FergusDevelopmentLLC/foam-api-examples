@@ -17,7 +17,7 @@ The FOAM REST API requires a header authorization key/value pair for each reques
 ```
 https://api-beta.foam.space/beacon?xmin=-74.024677&ymin=-73.923054&xmax=40.695998&ymax=40.802245
 ```
-6. Add an authorization key with the Bearer auth string from the Authorization step above. The Bearer string will be similar to: Bearer fxtguifkduUxMiJ9.eyJkYXQiOiJiZwxuudrceveM5NTFmMhSc8mHjvwph9eUOLX8vGgt6dgmrlyqtbisfscbkqdlrzqtvw
+6. Add an authorization key with the Bearer auth string from the Authorization step above. The Bearer string will be similar to: Bearer fxtguifkduUxMiJ9.eyJkYXQdrceveM5NTFmMhSc8mHjvwph9eUOLX8vGgt6cbkqdlrzqtvw
 7. Send test request
 
 ![](https://i.imgur.com/w3E0UoA.gif)
