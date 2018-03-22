@@ -7,7 +7,7 @@ https://f-o-a-m.github.io/foam.developer/index.html
 
 The FOAM REST API requires a header authorization key/value pair for each request. Follow the this tutorial to obtain the Bearer auth string value: https://f-o-a-m.github.io/foam.developer/tutorials/intro_to_api.html 
 
-## Use Postman and auth string to send a test API request
+## Send a test authenticated API request with Postman
 
 1. Install Postman, a REST API utility: https://www.getpostman.com/
 2. Download this swagger.json definition of the FOAM REST API: https://f-o-a-m.github.io/foam.developer/3f1f223f5e0965a733c42bdba28adbf5/swagger.json
