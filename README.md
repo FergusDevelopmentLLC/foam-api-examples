@@ -49,7 +49,7 @@ Live example: http://bl.ocks.org/FergusDevelopmentLLC/020933cd26b2133291029fce53
 
 ### CSC search
 
-Example of how to perform a search against the FOAM API
+Example FOAM API search.
 
 Searches that will find matched csc names: "Denver2", "London", "ParisFoamBeta1", "Marriott hotel", etc.
 
