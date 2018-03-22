@@ -13,7 +13,10 @@ The FOAM REST API requires a header authorization key/value pair for each reques
 2. Download this swagger.json definition of the FOAM REST API: https://f-o-a-m.github.io/foam.developer/3f1f223f5e0965a733c42bdba28adbf5/swagger.json
 3. Import downloaded swagger.json into Postman to gain access to all the FOAM API endpoints
 4. Double click the https://api-beta.foam.space/beacon?xmin={{xmin}}&ymin={{ymin}}&xmax={{xmax}}&ymax={{ymax}}&zoom={{zoom}} API method
-5. Replace the GET url with actual bounding box coordinates, for example: https://api-beta.foam.space/beacon?xmin=-74.024677&ymin=-73.923054&xmax=40.695998&ymax=40.802245
+5. Replace the GET url with actual bounding box coordinates, for example: 
+```
+https://api-beta.foam.space/beacon?xmin=-74.024677&ymin=-73.923054&xmax=40.695998&ymax=40.802245
+```
 6. Add an authorization key with the Bearer auth string from the Authorization step above
 7. Send test request
 
