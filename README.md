@@ -1,25 +1,33 @@
 # FOAM API Examples
 
-Examples of basic maps that get CSC data from the FOAM api. Mauris vitae ornare orci. Donec accumsan diam nec eros ultricies malesuada. Curabitur pharetra efficitur erat ac volutpat. Nullam condimentum justo ut elementum auctor. Fusce posuere congue dolor, vitae feugiat nibh luctus in.
-
-Start here:
+This document provides details on how to make authenticated requests to the FOAM REST API to obtain data to drive various web maps. Get started here:
 https://f-o-a-m.github.io/foam.developer/index.html
 
 ## Authentication
 
-Explain how to get and authorize FOAM API calls.
+The FOAM REST API requires a header authorization key/value pair for each request. Follow the this tutorial to obtain the Bearer auth string value: https://f-o-a-m.github.io/foam.developer/tutorials/intro_to_api.html 
 
-https://f-o-a-m.github.io/foam.developer/tutorials/intro_to_api.html
+## Use Postman and auth string to send a test API request
 
-![](http://storage7.static.itmages.com/i/18/0322/h_1521737183_3753942_9c6da1e170.png)
+1. Install Postman, a REST API utility: https://www.getpostman.com/
+2. Download this swagger.json definition of the FOAM REST API: https://f-o-a-m.github.io/foam.developer/3f1f223f5e0965a733c42bdba28adbf5/swagger.json
+3. Import downloaded swagger.json into Postman to gain access to all the FOAM API endpoints
+4. Double click the https://api-beta.foam.space/beacon?xmin={{xmin}}&ymin={{ymin}}&xmax={{xmax}}&ymax={{ymax}}&zoom={{zoom}} API method
+5. Replace the GET url with actual bounding box coordinates, for example: https://api-beta.foam.space/beacon?xmin=-74.024677&ymin=-73.923054&xmax=40.695998&ymax=40.802245
+6. Add an authorization key with the Bearer auth string from the Authorization step above
+7. Send test request
 
-## Postman/Swagger
+![](https://i.imgur.com/0Ne2awc.gif)
 
-Set up postman to communicate with the FOAM API. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus erat ac tortor pellentesque, id pulvinar orci sollicitudin. Aliquam erat volutpat. Duis eu dui nec orci faucibus malesuada. Pellentesque tincidunt metus eget dictum sagittis. Donec felis mauris, tempus in elementum at, mollis et nulla. Phasellus blandit, enim et rutrum tempor, neque orci condimentum nibh, eu accumsan enim nibh ut sem. Aenean eu blandit massa.
+http://bboxfinder.com is a useful utility for finding a bounding box that fits your area of interest. 
 
-https://www.getpostman.com/
+![](http://storage7.static.itmages.com/i/18/0322/h_1521758421_7705106_7f7e0e7d59.png)
 
-https://insomnia.rest/
+Note, when sending a GET /beacon request to the FOAM API, use the latitude/longitude values of your area of interest's bounding box.
+* xmin = smallest longitude value
+* xmax = largest longitude value
+* ymin = smallest latitude value
+* ymax = largest latitude value
 
 ## Example Maps
 
