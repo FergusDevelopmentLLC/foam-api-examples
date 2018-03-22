@@ -23,7 +23,7 @@ https://insomnia.rest/
 
 ## Example Maps
 
-See example code: ![link](https://github.com/FergusDevelopmentLLC/foam-api-examples/tree/master/examples).
+See code examples [here](https://github.com/FergusDevelopmentLLC/foam-api-examples/tree/master/examples).
 
 ### Leaflet
 
