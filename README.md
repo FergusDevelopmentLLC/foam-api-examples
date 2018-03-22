@@ -1,9 +1,9 @@
-# FOAM API Examples
+# FOAM API Tutorial / Examples
 
 This document provides details on how to make authenticated requests to the FOAM REST API to obtain data to drive various web maps. Get started here:
 https://f-o-a-m.github.io/foam.developer/index.html
 
-## Authentication
+## Obtain Authentication for the FOAM REST API
 
 The FOAM REST API requires a header authorization key/value pair for each request. Follow the this tutorial to obtain the Bearer auth string value: https://f-o-a-m.github.io/foam.developer/tutorials/intro_to_api.html 
 
