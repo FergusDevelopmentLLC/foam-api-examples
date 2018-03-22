@@ -29,7 +29,7 @@
         //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/e1cb1d18dac41c46c72d8c19f7ef09c8
 
         // get bounding box: http://bboxfinder.com
-        var mapBounds = [-105.501709,38.595407,-104.315186,40.701464];//Southwest corner, Northeast corner
+        var mapBounds = [-105.244904,39.515695,-104.648895,39.985538];//Southwest corner, Northeast corner
         
         var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
 
@@ -38,12 +38,19 @@
 
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsbGNhcnRlciIsImEiOiJjamV4b2g3Z2ExOGF4MzFwN3R1dHJ3d2J4In0.Ti-hnuBH8W4bHn7k6GCpGw';
         
+        // let basemap = 'basic';
+        // let basemap = 'streets';
+        // let basemap = 'bright';
+        // let basemap = 'light';
+        let basemap = 'dark';
+        // let basemap = 'satellite';
+
         // https://www.mapbox.com/api-documentation/#styles
         var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/dark-v9',
+            style: 'mapbox://styles/mapbox/' + basemap + '-v9',
             center: [(mapBounds[0] + mapBounds[2])/2, (mapBounds[1] + mapBounds[3])/2],   
-            zoom: 8
+            zoom: 12
         });
 
         map.on("load", function () {
@@ -96,7 +103,7 @@
                         source: 'data',
                         type: 'circle',
                         paint: {
-                            'circle-radius': 3,
+                            'circle-radius': 5,
                             'circle-color': 'yellow'
                         }
                     })
