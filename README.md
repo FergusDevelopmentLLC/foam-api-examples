@@ -23,6 +23,8 @@ https://insomnia.rest/
 
 ## Example Maps
 
+See example code: ![link](https://github.com/FergusDevelopmentLLC/foam-api-examples/tree/master/examples).
+
 ### Leaflet
 
 Simple Leaflet map at displays FOAM CSC data by calling the API. Uses https://github.com/chrisveness/latlon-geohash for datapoint conversion and https://github.com/axios/axios for calling the API.
