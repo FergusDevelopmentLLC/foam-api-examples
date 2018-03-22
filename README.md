@@ -1,4 +1,4 @@
-# FOAM API Tutorial / Examples
+# FOAM API Tutorial / Map Examples
 
 This document provides details on how to make authenticated requests to the FOAM REST API to obtain data to drive various web maps. Get started here:
 https://f-o-a-m.github.io/foam.developer/index.html
