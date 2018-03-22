@@ -69,7 +69,7 @@ Live example: http://bl.ocks.org/FergusDevelopmentLLC/020933cd26b2133291029fce53
 
 Example FOAM API search.
 
-Searches that will find matched csc names: "Denver2", "London", "ParisFoamBeta1", "Marriott hotel", etc.
+Searches that will find matched csc names: "Denver2", "London", "ParisFoamBeta1", "Marriott hotel" or any other beacon name
 
 ![](https://i.imgur.com/hqGX8qx.gif)
 Live example: http://bl.ocks.org/FergusDevelopmentLLC/70150641ddb8c7eb93cebcc689faaae8
