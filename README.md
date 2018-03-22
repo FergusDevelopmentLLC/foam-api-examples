@@ -31,7 +31,6 @@ Live example: http://bl.ocks.org/FergusDevelopmentLLC/3b3fd8491b3df85e40d6e0d4b9
 Simple Mapbox.GL map at displays FOAM CSC data by calling the API. Uses https://github.com/chrisveness/latlon-geohash for datapoint conversion and https://github.com/axios/axios for calling the API.
 
 ![](http://storage7.static.itmages.com/i/18/0322/h_1521738283_6444740_02c3e5b2d8.png)
-
 Live example: http://bl.ocks.org/FergusDevelopmentLLC/e1cb1d18dac41c46c72d8c19f7ef09c8
 
 ### Custom markers
@@ -39,7 +38,6 @@ Live example: http://bl.ocks.org/FergusDevelopmentLLC/e1cb1d18dac41c46c72d8c19f7
 Example of how to use a custom marker in Mapbox.GL. Data is from the FOAM API.
 
 ![](http://storage8.static.itmages.com/i/18/0322/h_1521738397_6180381_d2d1d3856e.png)
-
 Live example: http://bl.ocks.org/FergusDevelopmentLLC/5769c878d00d8f67569ae5b52c83caad
 
 ### Data popup on hover
@@ -47,13 +45,13 @@ Live example: http://bl.ocks.org/FergusDevelopmentLLC/5769c878d00d8f67569ae5b52c
 Example of how to add a marker popup on hover. Data contained in the popup is from from the FOAM API.
 
 ![](http://storage6.static.itmages.com/i/18/0322/h_1521738706_3252718_a826d36491.png)
-
 Live example: http://bl.ocks.org/FergusDevelopmentLLC/020933cd26b2133291029fce53a457fb
 
 ### CSC search
 
-Example of how to perform a search against the FOAM API. Searches that will find matched csc names: "Denver2", "London", "ParisFoamBeta1", "Marriott hotel", etc.
+Example of how to perform a search against the FOAM API
+
+Searches that will find matched csc names: "Denver2", "London", "ParisFoamBeta1", "Marriott hotel", etc.
 
 ![](https://i.imgur.com/hqGX8qx.gif)
-
 Live example: http://bl.ocks.org/FergusDevelopmentLLC/70150641ddb8c7eb93cebcc689faaae8
