@@ -76,8 +76,6 @@
                         }
                     });
                     
-                    handlePopup();
-
                 },
                     (error) => {
                         var status = error.response.status
@@ -85,47 +83,6 @@
                 );
         });
     });
-
-
-function handlePopup() {
-    // Create a popup, but don't add it to the map yet.
-    var popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false
-    });
-
-    map.on('mouseenter', 'beacons', function(e) {
-        
-        // Change the cursor style as a UI indicator.
-        map.getCanvas().style.cursor = 'pointer';
-
-        var coordinates = [e.features[0].properties.beaconLng, e.features[0].properties.beaconLat];
-        
-        // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-        
-        var html = '<strong>CSC Details</strong></br>';
-            html += 'Name: ' + e.features[0].properties.beaconName + '<br/>';
-            html += 'Transactionhash: ' + e.features[0].properties.beaconTransactionHash + '<br/>';
-            html += 'Geohash: ' + e.features[0].properties.beaconGeohash + '<br/>';
-            html += 'Address: ' + e.features[0].properties.beaconBeaconAddress + '<br/>';
-            html += 'FactoryAddress: ' + e.features[0].properties.beaconFactoryAddress + '<br/>';
-            html += 'Latitude: ' + coordinates[1] + '<br/>';
-            html += 'Longitude: ' + coordinates[0] + '<br/>';
-
-        // Populate the popup and set its coordinates based on the feature found.
-        popup.setLngLat(coordinates)
-            .setHTML(html)
-            .addTo(map);
-    });
-
-    map.on('mouseleave', 'beacons', function() {
-        map.getCanvas().style.cursor = '';
-        popup.remove();
-    });
-}
 
 function GetGeoJsonFrom(foamBeaconData) {
 
