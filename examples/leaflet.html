@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>FOAM API Example - Leaflet</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/latlon-geohash@1.1.0/latlon-geohash.min.js"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+    
+</head>
+
+<body>
+    <div id='map'></div>
+    <script>
+        
+        //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/3b3fd8491b3df85e40d6e0d4b9911493
+
+        //get bounding box: http://bboxfinder.com
+        var mapBounds = [
+            [39.580819,-105.154953], //Southwest corner
+            [39.941857,-104.646835]  //Northeast corner
+        ];
+        
+        //create a Leaflet map, assign it to map div, fit it to maxBounds
+        var map = L.map('map').fitBounds(mapBounds);
+        
+        //add basemap
+        var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 18,
+            ext: 'png'
+        }).addTo(map);
+        
+        //https://api-beta.foam.space/beacon?xmin=-74.025196&ymin=40.698736&xmax=-73.937133&ymax=40.775217
+        var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0][1] + '&ymin=' + mapBounds[0][0] + '&xmax=' + mapBounds[1][1] + '&ymax=' + mapBounds[1][0];
+        
+        //for authenticating to the FOAM API below
+        var auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
+
+        axios.get(
+            url,
+            {
+                headers: { "authorization": auth }
+            })
+            .then((response) => {
+
+                var response = response.data;
+                
+                //for each beacon in the response from FOAM api
+                for (beacon in response) {
+                    //decode the beaconGeoHash value to lat, lon
+                    var decodedLatLng = Geohash.decode(response[beacon].beaconGeohash);// get lat/lon from geohash: https://github.com/chrisveness/latlon-geohash
+                    
+                    //use decoded lat/lon to create Markers for map
+                    var latlng = L.latLng({ lat: decodedLatLng.lat, lng: decodedLatLng.lon });
+                    var marker = L.marker(latlng).addTo(map);
+                }
+
+            },
+                (error) => {
+                    var status = error.response.status
+                }
+            );
+    </script>
+</body>

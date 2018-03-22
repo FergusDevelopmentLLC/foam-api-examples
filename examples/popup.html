@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>FOAM API Example - Popup on hover</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/latlon-geohash@1.1.0/latlon-geohash.min.js"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+    .mapboxgl-popup {
+        max-width: 500px;
+        font: 10px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+<div id='map'></div>
+<script>
+
+//see this in action: http://bl.ocks.org/FergusDevelopmentLLC/020933cd26b2133291029fce53a457fb/
+
+//based on: https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+
+// get bounding box: http://bboxfinder.com
+var mapBounds = [-74.024677,40.695998,-73.923054,40.802245];//Southwest corner, Northeast corner
+
+var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
+
+//for authenticating to the FOAM API below
+let auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsbGNhcnRlciIsImEiOiJjamV4b2g3Z2ExOGF4MzFwN3R1dHJ3d2J4In0.Ti-hnuBH8W4bHn7k6GCpGw';
+
+// let basemap = 'basic';
+// let basemap = 'streets';
+// let basemap = 'bright';
+// let basemap = 'light';
+let basemap = 'dark';
+// let basemap = 'satellite';
+
+// https://www.mapbox.com/api-documentation/#styles
+let map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/' + basemap + '-v9',
+    center: [(mapBounds[0] + mapBounds[2])/2, (mapBounds[1] + mapBounds[3])/2],  
+    zoom: 12.3
+});
+
+map.on('load', function() {
+    axios.get(
+        url,
+        {
+            headers: { "authorization": auth }
+        })
+        .then((response) => {
+
+            let geojson = GetGeoJsonFrom(response.data);
+
+            map.addSource('data', {
+                type: 'geojson',
+                data: geojson
+            });
+
+            map.addLayer({
+                id: 'beacons',
+                source: 'data',
+                type: 'circle',
+                paint: {
+                    'circle-radius': 5,
+                    'circle-color': '#ff00ff'
+                }
+            });
+
+            handlePopup();
+
+        },
+            (error) => {
+                var status = error.response.status
+            }
+        );
+});
+
+function handlePopup() {
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    map.on('mouseenter', 'beacons', function(e) {
+        
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+
+        var coordinates = [e.features[0].properties.beaconLng, e.features[0].properties.beaconLat];
+        
+        // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        
+        var html = '<strong>CSC Details</strong></br>';
+            html += 'Name: ' + e.features[0].properties.beaconName + '<br/>';
+            html += 'Transactionhash: ' + e.features[0].properties.beaconTransactionHash + '<br/>';
+            html += 'Geohash: ' + e.features[0].properties.beaconGeohash + '<br/>';
+            html += 'Address: ' + e.features[0].properties.beaconBeaconAddress + '<br/>';
+            html += 'FactoryAddress: ' + e.features[0].properties.beaconFactoryAddress + '<br/>';
+            html += 'Latitude: ' + coordinates[1] + '<br/>';
+            html += 'Longitude: ' + coordinates[0] + '<br/>';
+
+        // Populate the popup and set its coordinates based on the feature found.
+        popup.setLngLat(coordinates)
+            .setHTML(html)
+            .addTo(map);
+    });
+
+    map.on('mouseleave', 'beacons', function() {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+    });
+}
+
+function GetGeoJsonFrom(foamBeaconData) {
+
+    let features = [];
+
+    for (beacon in foamBeaconData) {
+
+        // Decode the beaconGeoHash value to lat, lon using https://github.com/chrisveness/latlon-geohash
+        let decodedLatLng = Geohash.decode(foamBeaconData[beacon].beaconGeohash);
+        
+        // Build the geojson features array
+        feature = {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [decodedLatLng.lon, decodedLatLng.lat]
+            },
+            properties: {
+                beaconTransactionHash: foamBeaconData[beacon].beaconTransactionHash,
+                beaconName: foamBeaconData[beacon].beaconName,
+                beaconGeohash: foamBeaconData[beacon].beaconGeohash,
+                beaconBeaconAddress: foamBeaconData[beacon].beaconBeaconAddress,
+                beaconFactoryAddress: foamBeaconData[beacon].beaconFactoryAddress,
+                beaconLat: decodedLatLng.lat,
+                beaconLng: decodedLatLng.lon
+            }
+        };
+        features.push(feature);
+    }
+
+    // Add FeatureCollection wrapper
+    let geojson = {
+        type: 'FeatureCollection',
+        features: features
+    };
+
+    return geojson;
+
+}
+</script>
+
+</body>
+</html>

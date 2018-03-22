@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>FOAM API Example - Mapbox.GL</title>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/latlon-geohash@1.1.0/latlon-geohash.min.js"></script>
+    <title>API Demo</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #map {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    <script>
+
+        //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/e1cb1d18dac41c46c72d8c19f7ef09c8
+
+        // get bounding box: http://bboxfinder.com
+        var mapBounds = [-105.501709,38.595407,-104.315186,40.701464];//Southwest corner, Northeast corner
+        
+        var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
+
+        //for authenticating to the FOAM API below
+        var auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
+
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsbGNhcnRlciIsImEiOiJjamV4b2g3Z2ExOGF4MzFwN3R1dHJ3d2J4In0.Ti-hnuBH8W4bHn7k6GCpGw';
+        
+        // https://www.mapbox.com/api-documentation/#styles
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v9',
+            center: [(mapBounds[0] + mapBounds[2])/2, (mapBounds[1] + mapBounds[3])/2],   
+            zoom: 8
+        });
+
+        map.on("load", function () {
+            axios.get(
+                url,
+                {
+                    headers: { "authorization": auth }
+                })
+                .then((response) => {
+
+                    let data = response.data;
+
+                    let features = [];
+
+                    for (beacon in data) {
+
+                        //decode the beaconGeoHash value to lat, lon
+                        let decodedLatLng = Geohash.decode(data[beacon].beaconGeohash);
+
+                        feature = {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [decodedLatLng.lon, decodedLatLng.lat]
+                            },
+                            properties: {
+                                beaconTransactionHash: data[beacon].beaconTransactionHash,
+                                beaconName: data[beacon].beaconName,
+                                beaconGeohash: data[beacon].beaconGeohash,
+                                beaconBeaconAddress: data[beacon].beaconBeaconAddress,
+                                beaconFactoryAddress: data[beacon].beaconFactoryAddress
+                            }
+                        };
+                        
+                        features.push(feature);
+                    }
+
+                    let geojson = {
+                        type: 'FeatureCollection',
+                        features: features
+                    };
+
+                    map.addSource('data', {
+                        type: 'geojson',
+                        data: geojson
+                    });
+
+                    map.addLayer({
+                        id: 'points',
+                        source: 'data',
+                        type: 'circle',
+                        paint: {
+                            'circle-radius': 3,
+                            'circle-color': 'yellow'
+                        }
+                    })
+                },
+                    (error) => {
+                        var status = error.response.status
+                    }
+                );
+        });
+    </script>
+</body>
+
+</html>
