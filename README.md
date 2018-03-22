@@ -17,7 +17,7 @@ The FOAM REST API requires a header authorization key/value pair for each reques
 6. Add an authorization key with the Bearer auth string from the Authorization step above
 7. Send test request
 
-![](https://i.imgur.com/0Ne2awc.gif)
+![](https://i.imgur.com/w3E0UoA.gif)
 
 http://bboxfinder.com is a useful utility for finding a bounding box that fits your area of interest. 
 
