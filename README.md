@@ -1,11 +1,11 @@
-# FOAM API
+# FOAM API Examples
 
 Examples of basic maps that get CSC data from the FOAM api. Mauris vitae ornare orci. Donec accumsan diam nec eros ultricies malesuada. Curabitur pharetra efficitur erat ac volutpat. Nullam condimentum justo ut elementum auctor. Fusce posuere congue dolor, vitae feugiat nibh luctus in.
 
 Start here:
 https://f-o-a-m.github.io/foam.developer/index.html
 
-## Authenticate with beta.foam.space
+## Authentication
 
 Explain how to get and authorize FOAM API calls.
 
