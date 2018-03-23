@@ -24,7 +24,7 @@ https://api-beta.foam.space/beacon?xmin=-74.024677&ymin=-73.923054&xmax=40.69599
 
 http://bboxfinder.com is a useful utility for finding a bounding box that fits your area of interest. 
 
-![](http://storage7.static.itmages.com/i/18/0322/h_1521758421_7705106_7f7e0e7d59.png)
+![](http://storage5.static.itmages.com/i/18/0323/h_1521817819_9414564_3c23fc1852.png)
 
 Note, when sending a GET /beacon request to the FOAM API, use the latitude/longitude values of your area of interest's bounding box.
 * xmin = smallest longitude value
