@@ -14,15 +14,14 @@ Bearer fxtguifkduUxMiJ9.eyJkYXQdrceveM5NTFmMhSc8mHjvwph9eUOLX8vGgt6cbkqdlrzqtvw.
 ## Send a test authenticated API request with Postman
 
 1. Install Postman, a REST API utility: https://www.getpostman.com/ 
-2. Download the swagger.json definition of the FOAM REST API. This definition file can then be imported into Postman, which will provide easy access ot all the FOAM API endpoints. https://f-o-a-m.github.io/foam.developer/3f1f223f5e0965a733c42bdba28adbf5/swagger.json
+2. Download the swagger.json definition of the FOAM REST API. This definition file can then be imported into Postman, which will provide easy access ot all the FOAM API endpoints. Download here: https://f-o-a-m.github.io/foam.developer/3f1f223f5e0965a733c42bdba28adbf5/swagger.json
 3. Import swagger.json into Postman to gain access to all the FOAM API endpoints (see screengrab below).
-4. Double click the https://api-beta.foam.space/beacon?xmin={{xmin}}&ymin={{ymin}}&xmax={{xmax}}&ymax={{ymax}}&zoom={{zoom}} API method
-5. Replace the GET url with one that contains actual bounding box coordinates, for example: 
+4. Double click the https://api-beta.foam.space/beacon?xmin={{xmin}}&ymin={{ymin}}&xmax={{xmax}}&ymax={{ymax}}&zoom={{zoom}} API method and replace the GET url with one that contains actual bounding box coordinates, for example: 
 ```
 https://api-beta.foam.space/beacon?xmin=-74.024677&ymin=-73.923054&xmax=40.695998&ymax=40.802245
 ```
-6. Add an authorization key with the Bearer auth string from the Authorization step above (see screengrab below).
-7. Send test request.
+5. Add an authorization key with the Bearer auth string from the Authorization step above (see screengrab below).
+6. Send test request.
 
 ![](https://i.imgur.com/w3E0UoA.gif)
 
