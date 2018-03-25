@@ -52,14 +52,14 @@
             })
             .then((response) => {
 
-                var response = response.data;
+                let beacons = response.data;
                 
                 //for each beacon in the response from FOAM api
-                for (beacon in response) {
+                for (beacon in beacons) {
 
                     //decode the beaconGeoHash value to lat, lon
                     //https://github.com/chrisveness/latlon-geohash
-                    let decodedLatLng = Geohash.decode(response[beacon].beaconGeohash);
+                    let decodedLatLng = Geohash.decode(beacons[beacon].beaconGeohash);
                     
                     //use decoded lat/lon to create Markers for map
                     let latlng = L.latLng({ lat: decodedLatLng.lat, lng: decodedLatLng.lon });
