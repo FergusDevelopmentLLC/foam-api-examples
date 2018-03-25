@@ -9,19 +9,10 @@
     <script src="https://cdn.jsdelivr.net/npm/latlon-geohash@1.1.0/latlon-geohash.min.js"></script>
     <title>API Demo</title>
     <style>
-        body {
-            margin: 0;
-        }
-
-        #map {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
 </head>
-
 <body>
     <div id='map'></div>
     <script>
@@ -29,16 +20,16 @@
         //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/e1cb1d18dac41c46c72d8c19f7ef09c8
 
         // get bounding box: http://bboxfinder.com
-        var mapBounds = [-105.244904,39.515695,-104.648895,39.985538];//Southwest corner, Northeast corner
-        
-        var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
+        let mapBounds = [-105.244904, 39.515695, -104.648895, 39.985538];//Southwest corner, Northeast corner
+
+        let url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
         //https://api-beta.foam.space/beacon?xmin=-105.244904&ymin=-104.648895&xmax=39.515695&ymax=39.985538
 
         //for authenticating to the FOAM API below
-        var auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
+        let auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
 
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsbGNhcnRlciIsImEiOiJjamV4b2g3Z2ExOGF4MzFwN3R1dHJ3d2J4In0.Ti-hnuBH8W4bHn7k6GCpGw';
-        
+
         // let basemap = 'basic';
         // let basemap = 'streets';
         // let basemap = 'bright';
@@ -47,10 +38,10 @@
         // let basemap = 'satellite';
 
         // https://www.mapbox.com/api-documentation/#styles
-        var map = new mapboxgl.Map({
+        let map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/' + basemap + '-v9',
-            center: [(mapBounds[0] + mapBounds[2])/2, (mapBounds[1] + mapBounds[3])/2],   
+            center: [(mapBounds[0] + mapBounds[2]) / 2, (mapBounds[1] + mapBounds[3]) / 2],
             zoom: 12
         });
 
@@ -85,7 +76,7 @@
                                 beaconFactoryAddress: data[beacon].beaconFactoryAddress
                             }
                         };
-                        
+
                         features.push(feature);
                     }
 
@@ -110,11 +101,10 @@
                     })
                 },
                     (error) => {
-                        var status = error.response.status
+                        let status = error.response.status
                     }
                 );
         });
     </script>
 </body>
-
 </html>

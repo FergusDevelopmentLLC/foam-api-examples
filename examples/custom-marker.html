@@ -12,118 +12,119 @@
         #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
 </head>
+
 <body>
     <div id="map"></div>
 
-<script>
+    <script>
 
-    //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/5769c878d00d8f67569ae5b52c83caad
+        //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/5769c878d00d8f67569ae5b52c83caad
 
-    // get bounding box: http://bboxfinder.com
-    var mapBounds = [-11.030273,35.389050,27.202148,58.950008];//Southwest corner, Northeast corner
+        // get bounding box: http://bboxfinder.com
+        let mapBounds = [-11.030273, 35.389050, 27.202148, 58.950008];//Southwest corner, Northeast corner
 
-    var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
-    //https://api-beta.foam.space/beacon?xmin=-11.030273&ymin=27.202148&xmax=35.38905&ymax=58.950008
+        let url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0] + '&ymin=' + mapBounds[2] + '&xmax=' + mapBounds[1] + '&ymax=' + mapBounds[3];
+        //https://api-beta.foam.space/beacon?xmin=-11.030273&ymin=27.202148&xmax=35.38905&ymax=58.950008
 
-    //for authenticating to the FOAM API below
-    let auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
+        //for authenticating to the FOAM API below
+        let auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
 
-    mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsbGNhcnRlciIsImEiOiJjamV4b2g3Z2ExOGF4MzFwN3R1dHJ3d2J4In0.Ti-hnuBH8W4bHn7k6GCpGw';
-    
-    // let basemap = 'basic';
-    let basemap = 'streets';
-    // let basemap = 'bright';
-    // let basemap = 'light';
-    // let basemap = 'dark';
-    // let basemap = 'satellite';
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsbGNhcnRlciIsImEiOiJjamV4b2g3Z2ExOGF4MzFwN3R1dHJ3d2J4In0.Ti-hnuBH8W4bHn7k6GCpGw';
 
-    // https://www.mapbox.com/api-documentation/#styles
-    let map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/' + basemap + '-v9',
-        center: [(mapBounds[0] + mapBounds[2])/2, (mapBounds[1] + mapBounds[3])/2],  
-        zoom: 4.5
-    });
+        // let basemap = 'basic';
+        let basemap = 'streets';
+        // let basemap = 'bright';
+        // let basemap = 'light';
+        // let basemap = 'dark';
+        // let basemap = 'satellite';
 
-    map.on("load", function () {
-        /* Image: An image is loaded and added to the map. */
-        //https://i.imgur.com/1o46KsM.png
-        map.loadImage("https://i.imgur.com/a4kPZyg.png", function (error, image) {
-            
-            if (error) throw error;
-
-            map.addImage("custom-marker", image);
-
-            axios.get(
-                url,
-                {
-                    headers: { "authorization": auth }
-                })
-                .then((response) => {
-
-                    let geojson = GetGeoJsonFrom(response.data);
-
-                    map.addSource('data', {
-                        type: 'geojson',
-                        data: geojson
-                    });
-
-                    map.addLayer({
-                        id: 'beacons',
-                        source: 'data',
-                        type: 'symbol',
-                        layout: {
-                            'icon-image': 'custom-marker',
-                        }
-                    });
-                    
-                },
-                    (error) => {
-                        var status = error.response.status
-                    }
-                );
+        // https://www.mapbox.com/api-documentation/#styles
+        let map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/' + basemap + '-v9',
+            center: [(mapBounds[0] + mapBounds[2]) / 2, (mapBounds[1] + mapBounds[3]) / 2],
+            zoom: 4.5
         });
-    });
 
-function GetGeoJsonFrom(foamBeaconData) {
+        map.on("load", function () {
+            /* Image: An image is loaded and added to the map. */
+            //https://i.imgur.com/1o46KsM.png
+            map.loadImage("https://i.imgur.com/a4kPZyg.png", function (error, image) {
 
-    let features = [];
+                if (error) throw error;
 
-    for (beacon in foamBeaconData) {
+                map.addImage("custom-marker", image);
 
-        // Decode the beaconGeoHash value to lat, lon using https://github.com/chrisveness/latlon-geohash
-        let decodedLatLng = Geohash.decode(foamBeaconData[beacon].beaconGeohash);
-        
-        // Build the geojson features array
-        feature = {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [decodedLatLng.lon, decodedLatLng.lat]
-            },
-            properties: {
-                beaconTransactionHash: foamBeaconData[beacon].beaconTransactionHash,
-                beaconName: foamBeaconData[beacon].beaconName,
-                beaconGeohash: foamBeaconData[beacon].beaconGeohash,
-                beaconBeaconAddress: foamBeaconData[beacon].beaconBeaconAddress,
-                beaconFactoryAddress: foamBeaconData[beacon].beaconFactoryAddress,
-                beaconLat: decodedLatLng.lat,
-                beaconLng: decodedLatLng.lon
+                axios.get(
+                    url,
+                    {
+                        headers: { "authorization": auth }
+                    })
+                    .then((response) => {
+
+                        let geojson = GetGeoJsonFrom(response.data);
+
+                        map.addSource('data', {
+                            type: 'geojson',
+                            data: geojson
+                        });
+
+                        map.addLayer({
+                            id: 'beacons',
+                            source: 'data',
+                            type: 'symbol',
+                            layout: {
+                                'icon-image': 'custom-marker',
+                            }
+                        });
+
+                    },
+                        (error) => {
+                            let status = error.response.status
+                        }
+                    );
+            });
+        });
+
+        GetGeoJsonFrom = (foamBeaconData) => {
+
+            let features = [];
+
+            for (beacon in foamBeaconData) {
+
+                // Decode the beaconGeoHash value to lat, lon using https://github.com/chrisveness/latlon-geohash
+                let decodedLatLng = Geohash.decode(foamBeaconData[beacon].beaconGeohash);
+
+                // Build the geojson features array
+                feature = {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [decodedLatLng.lon, decodedLatLng.lat]
+                    },
+                    properties: {
+                        beaconTransactionHash: foamBeaconData[beacon].beaconTransactionHash,
+                        beaconName: foamBeaconData[beacon].beaconName,
+                        beaconGeohash: foamBeaconData[beacon].beaconGeohash,
+                        beaconBeaconAddress: foamBeaconData[beacon].beaconBeaconAddress,
+                        beaconFactoryAddress: foamBeaconData[beacon].beaconFactoryAddress,
+                        beaconLat: decodedLatLng.lat,
+                        beaconLng: decodedLatLng.lon
+                    }
+                };
+                features.push(feature);
             }
-        };
-        features.push(feature);
-    }
 
-    // Add FeatureCollection wrapper
-    let geojson = {
-        type: 'FeatureCollection',
-        features: features
-    };
+            // Add FeatureCollection wrapper
+            let geojson = {
+                type: 'FeatureCollection',
+                features: features
+            };
 
-    return geojson;
+            return geojson;
 
-}        
-</script>
+        }        
+    </script>
 
 </body>
 

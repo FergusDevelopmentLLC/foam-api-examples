@@ -21,17 +21,17 @@
         //see this in action: http://bl.ocks.org/FergusDevelopmentLLC/3b3fd8491b3df85e40d6e0d4b9911493
 
         //get bounding box: http://bboxfinder.com
-        var mapBounds = [
+        let mapBounds = [
             [39.580819,-105.154953], //Southwest corner
             [39.941857,-104.646835]  //Northeast corner
         ];
         
         //create a Leaflet map, assign it to map div, fit it to maxBounds
-        var map = L.map('map').fitBounds(mapBounds);
+        let map = L.map('map').fitBounds(mapBounds);
         
         //add basemap
         //check out more basemaps here: http://leaflet-extras.github.io/leaflet-providers/preview/
-        var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}', {
+        let tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}', {
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             subdomains: 'abcd',
             minZoom: 0,
@@ -39,11 +39,11 @@
             ext: 'png'
         }).addTo(map);
         
-        var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0][1] + '&ymin=' + mapBounds[0][0] + '&xmax=' + mapBounds[1][1] + '&ymax=' + mapBounds[1][0];
+        let url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0][1] + '&ymin=' + mapBounds[0][0] + '&xmax=' + mapBounds[1][1] + '&ymax=' + mapBounds[1][0];
         //https://api-beta.foam.space/beacon?xmin=-105.154953&ymin=39.580819&xmax=-104.646835&ymax=39.941857
         
         //for authenticating to the FOAM API below
-        var auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
+        let auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
 
         axios.get(
             url,
@@ -56,17 +56,19 @@
                 
                 //for each beacon in the response from FOAM api
                 for (beacon in response) {
+
                     //decode the beaconGeoHash value to lat, lon
-                    var decodedLatLng = Geohash.decode(response[beacon].beaconGeohash);// get lat/lon from geohash: https://github.com/chrisveness/latlon-geohash
+                    //https://github.com/chrisveness/latlon-geohash
+                    let decodedLatLng = Geohash.decode(response[beacon].beaconGeohash);
                     
                     //use decoded lat/lon to create Markers for map
-                    var latlng = L.latLng({ lat: decodedLatLng.lat, lng: decodedLatLng.lon });
-                    var marker = L.marker(latlng).addTo(map);
+                    let latlng = L.latLng({ lat: decodedLatLng.lat, lng: decodedLatLng.lon });
+                    let marker = L.marker(latlng).addTo(map);
                 }
 
             },
                 (error) => {
-                    var status = error.response.status
+                    let status = error.response.status
                 }
             );
     </script>

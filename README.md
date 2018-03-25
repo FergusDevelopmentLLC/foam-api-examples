@@ -83,7 +83,7 @@ Mapbox.GL API docs: https://www.mapbox.com/mapbox-gl-js/api/
 
 ### Custom markers
 
-Similar to the example above but with a different basemap and custom CSC markers.
+Similar to the example above but with a different base map and custom CSC markers.
 
 FOAM REST API request:
 ```
