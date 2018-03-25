@@ -81,6 +81,7 @@ map.on("load", function () {
         }
 
         let searchUrl = 'https://api-beta.foam.space/search?q=' + document.getElementById('search-box').value;
+        //https://api-beta.foam.space/search?q=London123
         
         axios.get(searchUrl, {headers: { "authorization": auth }})
         
@@ -88,8 +89,9 @@ map.on("load", function () {
                 
                 if(response.data.length > 0) {
                     document.getElementById('no-result').style = 'display:none';
-                    var beacon_url = 'https://api-beta.foam.space/beacon/' + response.data[0]['shDocId'];
-                    return axios.get(beacon_url, {headers: { "authorization": auth }})
+                    var beaconUrl = 'https://api-beta.foam.space/beacon/' + response.data[0]['shDocId'];
+                    //https://api-beta.foam.space/beacon/4ba12ad784ff4e596175cd3f38d04d582030561b
+                    return axios.get(beaconUrl, {headers: { 'Authorization': auth }})
                 }
                 else {
                     document.getElementById('no-result').style = 'display:block';

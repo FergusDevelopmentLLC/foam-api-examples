@@ -30,6 +30,7 @@
         var map = L.map('map').fitBounds(mapBounds);
         
         //add basemap
+        //check out more basemaps here: http://leaflet-extras.github.io/leaflet-providers/preview/
         var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}', {
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             subdomains: 'abcd',
@@ -38,8 +39,8 @@
             ext: 'png'
         }).addTo(map);
         
-        //https://api-beta.foam.space/beacon?xmin=-74.025196&ymin=40.698736&xmax=-73.937133&ymax=40.775217
         var url = 'https://api-beta.foam.space/beacon?xmin=' + mapBounds[0][1] + '&ymin=' + mapBounds[0][0] + '&xmax=' + mapBounds[1][1] + '&ymax=' + mapBounds[1][0];
+        //https://api-beta.foam.space/beacon?xmin=-105.154953&ymin=39.580819&xmax=-104.646835&ymax=39.941857
         
         //for authenticating to the FOAM API below
         var auth = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOiJiZTRlYTZmY2EyNTg5NjM0NjRjYTljNGQxZjBhYmM5NTFmMGE1ZGYyIn0.PV1tnjpqMwAiei5u7nASc8mHjvwph9eUOLX8vGgt6MpJUkbCXlp9mhQj9JVqoejUglEIUZtMsfAbh1_-WXEtvw';
